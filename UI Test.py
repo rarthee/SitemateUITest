@@ -24,12 +24,11 @@ class Customer_Confirmation(unittest.TestCase):
         element="self.driver.find_element_by_id('button-1')"
         try:
             element.click()
+            ##Providing a an implicit wait time for the next page to load
+            self.driver.implicitly_wait(self, 5)
         except WebDriverException:
             print("Element is not clickable")
 
-
-        ##Providing a an implicit wait time for the next page to load
-        self.driver.implicitly_wait(self,5)
 
     def test_02_Accept_alert(self):
 
@@ -38,13 +37,12 @@ class Customer_Confirmation(unittest.TestCase):
             alert = self.driver.switch_to.alert()
             alert.accept()
             print("alert accepted")
+            ##Get the successful message displayed on the screen after accepting the alert
+            text = self.driver.find_element_by_xpath("*[@id='result']").getText();
+            # Check if the message is "You just clicked "Yes"."
+            self.assertIn('You just clicked "Yes".', text)
         except TimeoutException:
             print("There is no alert")
-
-        ##Get the successful message displayed on the screen after accepting the alert
-        text=self.driver.find_element_by_xpath("*[@id='result']").getText();
-        #Check if the message is "You just clicked "Yes"."
-        self.assertIn('You just clicked "Yes".', text)
 
     def test_03_Reject_alert(self):
         # refresh the webpage so that we will get to the main page
@@ -56,20 +54,19 @@ class Customer_Confirmation(unittest.TestCase):
         element = "self.driver.find_element_by_id('button-1')"
         try:
             element.click()
+            ##Switch to alert and reject it. Then evaluate the message displayed
+            alert = self.driver.switch_to.alert()
+            alert.reject()
+            print("alert rejected")
+            text = ''
+            ## Providing an explicit Wait for the main page to load with the message after rejecting the alert
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.id, "result")))
+            ##Get the message displayed on the screen after rejecting the alert
+            text = self.driver.find_element_by_xpath("*[@id='result']").getText();
+            # Check if the message is "You just clicked "Cancel"."
+            self.assertIn('You just clicked "Cancel".', text)
         except WebDriverException:
             print("Element is not clickable")
-
-        ##Switch to alert and reject it. Then evaluate the message displayed
-        alert = self.driver.switch_to.alert()
-        alert.reject()
-        print("alert rejected")
-        text = ''
-        ## Providing an explicit Wait for the main page to load with the message after rejecting the alert
-        WebDriverWait(self.driver,10).until(EC.presence_of_element_located((By.id,"result")))
-        ##Get the message displayed on the screen after rejecting the alert
-        text = self.driver.find_element_by_xpath("*[@id='result']").getText();
-        # Check if the message is "You just clicked "Cancel"."
-        self.assertIn('You just clicked "Cancel".', text)
 
     def test_04_log(self):
         log = logging.getLogger()  # root logger
