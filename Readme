@@ -1,0 +1,30 @@
+# UI TEST
+This project traverses across 2 pages and evaluates the response based on accepting and rejecting an alert
+
+##Prerequisites
+Install python latest version from https://www.python.org/downloads/
+
+##Technologies
+Python 3.7.3
+
+### Customer_Confirmation
+
+* This is a unittest class that opens an url and validates various customer actions
+* It calls 6 methods
+* setUp: Accesses Chrome webdriver and opens the url 
+* test_01_Click_MainPage: It evaluate if the 'Click me' button is present and then clicks it
+* test_02_Accept_alert: It accepts the alert and checks if 'You just clicked "Yes".' message is displayed
+* test_03_Reject_alert: Rejects the alert and evaluates the message displayed 'You just clicked "Cancel".'
+* test_04_log: For event logging
+* tearDown: quits the webdriver
+## Steps to Execute:
+* Git clone the folder "SitemateUITest"(Python package) from the repo.
+* Execute the python file UItest.py
+
+### PyPI packages 
+* pip install unittest
+* pip install logging
+
+
+##Author
+Arthee Raghunathan--Initial work
